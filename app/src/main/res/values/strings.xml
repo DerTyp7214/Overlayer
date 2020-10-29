@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">Overlayer</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="addOverlay">Add Overlay</string>
+    <string name="typName">DerTyp7214</string>
+    <string name="typSub">Developer</string>
+    <string name="rkName">RKBDI</string>
+    <string name="rkSub">Designer</string>
+</resources>
