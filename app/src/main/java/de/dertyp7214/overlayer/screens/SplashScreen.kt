@@ -17,8 +17,9 @@ class SplashScreen : AppCompatActivity() {
             //Shell.enableVerboseLogging = BuildConfig.DEBUG
             Shell.Builder.create().setFlags(Shell.FLAG_MOUNT_MASTER)
 
-            if (Shell.rootAccess()) startActivity(Intent(this, MainScreen::class.java))
-            else finish()
+            if (Shell.rootAccess())
+                startActivity(Intent(this, MainScreen::class.java))
+            finish()
         }, 350)
     }
 }

@@ -10,7 +10,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Overlayer"
         tools:ignore="AllowBackup">
-        <activity android:name=".screens.SettingsScreen"></activity>
+        <activity
+            android:name=".screens.SettingsScreen"
+            android:theme="@style/Theme.Overlayer.Settings" />
         <activity android:name=".screens.MainScreen" />
         <activity
             android:name=".screens.SplashScreen"

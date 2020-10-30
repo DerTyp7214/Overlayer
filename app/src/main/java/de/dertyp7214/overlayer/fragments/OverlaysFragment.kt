@@ -15,6 +15,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.dgreenhalgh.android.simpleitemdecoration.linear.EndOffsetItemDecoration
 import de.dertyp7214.overlayer.R
 import de.dertyp7214.overlayer.core.dp
 import de.dertyp7214.overlayer.core.setHeight
@@ -36,7 +37,8 @@ class OverlaysFragment : Fragment() {
 
         val recyclerView = v.findViewById<RecyclerView>(R.id.overlay_list)
 
-        val list = ArrayList(overlayViewModel.getOverlays().toList().map { it.second })
+        val list = ArrayList(overlayViewModel.getOverlays().toList().map { it.second }
+            .filter { it.overlays.size > 0 })
         val adapter = OverlayGroupAdapter(requireActivity(), list)
 
         overlayViewModel.observeOverlays(this) { map ->
@@ -48,6 +50,9 @@ class OverlaysFragment : Fragment() {
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
         recyclerView.setHasFixedSize(true)
         recyclerView.adapter = adapter
+        recyclerView.addItemDecoration(
+            EndOffsetItemDecoration(55.dp(requireContext()))
+        )
 
         adapter.notifyDataSetChanged()
 
@@ -91,10 +96,17 @@ class OverlayGroupAdapter(private val activity: Activity, private val items: Lis
             overlayGroup.expanded = !overlayGroup.expanded
 
             val min = 0
-            val max = (overlayGroup.overlays.size*74).dp(activity)
+            val max = (overlayGroup.overlays.size * 74).dp(activity)
 
-            ObjectAnimator.ofFloat(holder.arrow, "rotation", if (overlayGroup.expanded) 0F else 180F).start()
-            ValueAnimator.ofInt(if (overlayGroup.expanded) min else max, if (overlayGroup.expanded) max else min).apply {
+            ObjectAnimator.ofFloat(
+                holder.arrow,
+                "rotation",
+                if (overlayGroup.expanded) 0F else 180F
+            ).start()
+            ValueAnimator.ofInt(
+                if (overlayGroup.expanded) min else max,
+                if (overlayGroup.expanded) max else min
+            ).apply {
                 addUpdateListener {
                     holder.overlayList.setHeight(it.animatedValue as Int)
                     holder.overlayList.requestLayout()
