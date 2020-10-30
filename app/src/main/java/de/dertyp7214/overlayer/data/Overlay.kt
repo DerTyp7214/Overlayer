@@ -2,4 +2,9 @@ package de.dertyp7214.overlayer.data
 
 import android.graphics.drawable.Drawable
 
-data class Overlay(val packageName: String, val icon: Drawable?, val enabled: Boolean)
+data class Overlay(
+    val name: String,
+    val packageName: String,
+    val icon: Drawable?,
+    val enabled: Boolean
+)

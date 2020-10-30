@@ -11,4 +11,6 @@
     <string name="search">Search</string>
     <string name="search_title">Search Overlays</string>
     <string name="cancel">Cancel</string>
+    <string name="no_root">This app only works with Root!</string>
+    <string name="ok">OK</string>
 </resources>

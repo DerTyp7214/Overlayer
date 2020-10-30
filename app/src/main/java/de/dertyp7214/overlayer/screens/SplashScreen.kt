@@ -5,6 +5,8 @@ import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import androidx.appcompat.app.AppCompatActivity
+import com.afollestad.materialdialogs.MaterialDialog
+import com.google.android.material.button.MaterialButton
 import com.topjohnwu.superuser.Shell
 import de.dertyp7214.overlayer.R
 
@@ -17,9 +19,16 @@ class SplashScreen : AppCompatActivity() {
             //Shell.enableVerboseLogging = BuildConfig.DEBUG
             Shell.Builder.create().setFlags(Shell.FLAG_MOUNT_MASTER)
 
-            if (Shell.rootAccess())
+            if (Shell.rootAccess()) {
                 startActivity(Intent(this, MainScreen::class.java))
-            finish()
+                finish()
+            } else {
+                MaterialDialog(this).show {
+                    setContentView(R.layout.no_root)
+
+                    findViewById<MaterialButton>(R.id.button).setOnClickListener { finish() }
+                }
+            }
         }, 350)
     }
 }

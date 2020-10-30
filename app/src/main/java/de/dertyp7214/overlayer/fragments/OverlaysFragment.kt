@@ -138,7 +138,7 @@ class OverlayAdapter(private val activity: Activity, private val items: List<Ove
         val overlay = items[position]
 
         holder.icon.setImageDrawable(overlay.icon)
-        holder.name.text = overlay.packageName
+        holder.name.text = overlay.name
         holder.packageName.text = overlay.packageName
         holder.enabled.isChecked = overlay.enabled
 

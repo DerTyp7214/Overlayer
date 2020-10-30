@@ -30,7 +30,7 @@ object OverlayHelper {
                         ContextCompat.getDrawable(context, R.drawable.no_icon)
                     }
 
-                    map[lastGroupName]?.overlays?.add(Overlay(packageName, icon, enabled))
+                    map[lastGroupName]?.overlays?.add(Overlay(packageName.removePrefix("$lastGroupName."), packageName, icon, enabled))
                 } else if (!it.startsWith("---")) {
                     lastGroupName = it
                     val icon = try {
