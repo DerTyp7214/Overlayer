@@ -8,12 +8,12 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
 
-    <color name="mainBackground">#F1F9FF</color>
-    <color name="secondBackground">#FAFDFF</color>
-    <color name="buttonBackground">#0094FF</color>
-    <color name="buttonForeground">#FFFFFF</color>
-    <color name="iconColor">#053B62</color>
+    <color name="mainBackground">#FFF1F9FF</color>
+    <color name="secondBackground">#FFFAFDFF</color>
+    <color name="buttonBackground">#FF0094FF</color>
+    <color name="buttonForeground">#FFFFFFFF</color>
+    <color name="iconColor">#FF053B62</color>
     <color name="accent">#FF5EE2FF</color>
-    <color name="title">#000</color>
-    <color name="subText">#195481</color>
+    <color name="title">#FF000000</color>
+    <color name="subText">#FF195481</color>
 </resources>

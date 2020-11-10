@@ -3,25 +3,52 @@
     <style name="Theme.Overlayer" parent="Theme.MaterialComponents.DayNight.NoActionBar">
 
         <item name="colorPrimary">@color/mainBackground</item>
+        <item name="colorSecondary">@color/secondBackground</item>
 
         <item name="android:colorAccent">@color/accent</item>
 
         <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimary</item>
         <item name="android:navigationBarColor" tools:targetApi="l">@color/secondBackground</item>
         <item name="android:windowBackground" tools:targetApi="l">?attr/colorPrimary</item>
+        <item name="android:colorControlActivated">@color/iconColor</item>
 
         <item name="android:windowLightStatusBar">true</item>
+        <item name="android:windowLightNavigationBar" tools:ignore="NewApi">true</item>
 
+        <item name="android:windowActivityTransitions">true</item>
+
+        <item name="android:windowAnimationStyle">@style/WindowAnimationTransition</item>
+    </style>
+
+    <style name="Theme.Overlayer.Amoled" parent="Theme.Overlayer">
     </style>
 
     <style name="Theme.Overlayer.Settings" parent="Theme.Overlayer">
-        <item name="android:navigationBarColor">@color/mainBackground</item>
+        <item name="android:navigationBarColor">?attr/colorPrimary</item>
     </style>
 
-    <style name="Theme.SplashScreen" parent="Theme.MaterialComponents.DayNight.NoActionBar">
-        <item name="android:windowBackground">@color/mainBackground</item>
-        <item name="android:navigationBarColor">@color/mainBackground</item>
-        <item name="android:statusBarColor">@color/mainBackground</item>
+    <style name="Theme.Overlayer.Settings.Amoled" parent="Theme.Overlayer.Settings">
+    </style>
+
+    <style name="Theme.SplashScreen" parent="Theme.Overlayer">
+        <item name="android:windowBackground">?attr/colorPrimary</item>
+        <item name="android:navigationBarColor">?attr/colorPrimary</item>
+        <item name="android:statusBarColor">?attr/colorPrimary</item>
         <item name="android:windowLightStatusBar">true</item>
+    </style>
+
+    <style name="BottomSheetPreference" parent="Theme.Design.Light.BottomSheetDialog">
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:windowContentOverlay">@null</item>
+        <item name="android:colorBackground">@android:color/transparent</item>
+        <item name="android:backgroundDimEnabled">true</item>
+        <item name="android:backgroundDimAmount">0.3</item>
+        <item name="android:windowFrame">@null</item>
+        <item name="android:windowIsFloating">true</item>
+    </style>
+
+    <style name="WindowAnimationTransition">
+        <item name="android:windowEnterAnimation">@android:anim/fade_in</item>
+        <item name="android:windowExitAnimation">@android:anim/fade_out</item>
     </style>
 </resources>

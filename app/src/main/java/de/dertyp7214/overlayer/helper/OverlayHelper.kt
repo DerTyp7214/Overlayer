@@ -5,6 +5,7 @@ import android.util.Log
 import androidx.core.content.ContextCompat
 import com.topjohnwu.superuser.Shell
 import com.topjohnwu.superuser.io.SuFile
+import de.dertyp7214.overlayer.BuildConfig
 import de.dertyp7214.overlayer.Config.MAGISK_OVERLAY_PATH
 import de.dertyp7214.overlayer.Config.MODULE_ID
 import de.dertyp7214.overlayer.Config.OVERLAY_PATH
@@ -30,7 +31,14 @@ object OverlayHelper {
                         ContextCompat.getDrawable(context, R.drawable.no_icon)
                     }
 
-                    map[lastGroupName]?.overlays?.add(Overlay(packageName.removePrefix("$lastGroupName."), packageName, icon, enabled))
+                    map[lastGroupName]?.overlays?.add(
+                        Overlay(
+                            packageName.removePrefix("$lastGroupName."),
+                            packageName,
+                            icon,
+                            enabled
+                        )
+                    )
                 } else if (!it.startsWith("---")) {
                     lastGroupName = it
                     val icon = try {
@@ -44,12 +52,26 @@ object OverlayHelper {
             }
         }
 
+        if (BuildConfig.DEBUG) map[BuildConfig.APPLICATION_ID] = OverlayGroup(
+            context.getString(R.string.app_name),
+            ContextCompat.getDrawable(context, R.mipmap.ic_launcher)
+        ).apply {
+            overlays.add(
+                Overlay(
+                    "Overlay",
+                    "${BuildConfig.APPLICATION_ID}_overlay",
+                    icon,
+                    false
+                )
+            )
+        }
+
         return map
     }
 
     fun setOverlayState(packageName: String, state: Boolean): Boolean {
         return Shell.su("cmd overlay ${if (state) "enable" else "disable"} $packageName")
-            .exec().isSuccess
+            .exec().isSuccess || BuildConfig.DEBUG
     }
 
     fun installOverlay(overlay: File): Boolean {

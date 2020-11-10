@@ -6,5 +6,6 @@ data class Overlay(
     val name: String,
     val packageName: String,
     val icon: Drawable?,
-    val enabled: Boolean
+    var enabled: Boolean,
+    var inQueue: Boolean = false
 )

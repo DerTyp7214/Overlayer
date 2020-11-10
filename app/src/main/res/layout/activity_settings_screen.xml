@@ -1,114 +1,188 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".screens.SettingsScreen">
 
-    <LinearLayout
+    <com.google.android.material.circularreveal.cardview.CircularRevealCardView
+        android:id="@+id/info"
         android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="5dp"
+        android:visibility="invisible"
+        app:cardBackgroundColor="?attr/colorSecondary"
+        app:cardCornerRadius="30dp"
+        app:cardPreventCornerOverlap="true"
+        app:layout_behavior="com.google.android.material.transformation.FabTransformationSheetBehavior">
+
+        <include layout="@layout/info_layout" />
+
+    </com.google.android.material.circularreveal.cardview.CircularRevealCardView>
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/floatingActionButton"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="24dp"
-        android:layout_marginTop="32dp"
+        android:layout_gravity="bottom|end"
         android:layout_marginEnd="24dp"
-        android:background="@drawable/full_rounded"
-        android:orientation="vertical"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        android:layout_marginBottom="24dp"
+        android:clickable="true"
+        android:transitionName="fab"
+        app:backgroundTint="@color/buttonBackground"
+        app:fabSize="auto"
+        app:layout_constraintBottom_toTopOf="@id/constraintLayout"
+        app:layout_constraintEnd_toStartOf="@id/constraintLayout"
+        app:rippleColor="@color/buttonForeground"
+        app:srcCompat="@drawable/ic_help_fab"
+        app:tint="@color/buttonForeground"
+        tools:ignore="ContentDescription" />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/constraintLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginStart="18dp"
-            android:layout_marginTop="30dp"
-            android:layout_marginBottom="20dp"
-            android:background="@android:color/transparent"
-            android:gravity="center"
-            android:orientation="horizontal">
-
-            <ImageView
-                android:id="@+id/typImage"
-                android:layout_width="70dp"
-                android:layout_height="70dp"
-                android:background="@android:color/transparent"
-                android:src="@drawable/cropped_typ"
-                tools:ignore="ContentDescription" />
+            android:layout_height="0dp"
+            android:orientation="vertical"
+            app:layout_constraintBottom_toTopOf="@id/version"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
 
             <LinearLayout
+                android:id="@+id/linearLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="4dp"
-                android:background="@android:color/transparent"
+                android:layout_marginStart="24dp"
+                android:layout_marginTop="32dp"
+                android:layout_marginEnd="24dp"
+                android:layout_marginBottom="24dp"
+                android:background="@drawable/full_rounded"
                 android:orientation="vertical">
 
-                <TextView
-                    android:id="@+id/typName"
+                <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="4dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginStart="18dp"
+                    android:layout_marginTop="30dp"
+                    android:layout_marginBottom="20dp"
                     android:background="@android:color/transparent"
-                    android:text="@string/typName"
-                    android:textColor="@color/title"
-                    android:textSize="18sp" />
+                    android:gravity="center"
+                    android:orientation="horizontal">
 
-                <TextView
-                    android:id="@+id/typSub"
+                    <de.hdodenhof.circleimageview.CircleImageView
+                        android:id="@+id/typImage"
+                        android:layout_width="70dp"
+                        android:layout_height="70dp"
+                        android:background="@android:color/transparent"
+                        android:src="@drawable/typ_image"
+                        tools:ignore="ContentDescription" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="4dp"
+                        android:background="@android:color/transparent"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:id="@+id/typName"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="4dp"
+                            android:background="@android:color/transparent"
+                            android:text="@string/typName"
+                            android:textColor="@color/title"
+                            android:textSize="18sp" />
+
+                        <TextView
+                            android:id="@+id/typSub"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="4dp"
+                            android:background="@android:color/transparent"
+                            android:text="@string/typSub"
+                            android:textColor="@color/subText"
+                            android:textSize="18sp" />
+                    </LinearLayout>
+                </LinearLayout>
+
+                <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="4dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginStart="18dp"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginBottom="30dp"
                     android:background="@android:color/transparent"
-                    android:text="@string/typSub"
-                    android:textColor="@color/subText"
-                    android:textSize="18sp" />
+                    android:orientation="horizontal">
+
+                    <de.hdodenhof.circleimageview.CircleImageView
+                        android:id="@+id/rkImage"
+                        android:layout_width="70dp"
+                        android:layout_height="70dp"
+                        android:background="@android:color/transparent"
+                        android:src="@drawable/rk_image"
+                        tools:ignore="ContentDescription" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="4dp"
+                        android:background="@android:color/transparent"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:id="@+id/rkName"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="4dp"
+                            android:background="@android:color/transparent"
+                            android:text="@string/rkName"
+                            android:textColor="@color/title"
+                            android:textSize="18sp" />
+
+                        <TextView
+                            android:id="@+id/rkSub"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="4dp"
+                            android:background="@android:color/transparent"
+                            android:text="@string/rkSub"
+                            android:textColor="@color/subText"
+                            android:textSize="18sp" />
+                    </LinearLayout>
+                </LinearLayout>
             </LinearLayout>
-        </LinearLayout>
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginStart="18dp"
-            android:layout_marginTop="20dp"
-            android:layout_marginBottom="30dp"
-            android:background="@android:color/transparent"
-            android:orientation="horizontal">
-
-            <ImageView
-                android:id="@+id/rkImage"
-                android:layout_width="70dp"
-                android:layout_height="70dp"
-                android:background="@android:color/transparent"
-                android:src="@drawable/cropped_rk"
-                tools:ignore="ContentDescription" />
-
-            <LinearLayout
+            <View
+                android:id="@+id/divider2"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="4dp"
-                android:background="@android:color/transparent"
-                android:orientation="vertical">
+                android:layout_height="1dp"
+                android:background="?android:attr/listDivider" />
 
-                <TextView
-                    android:id="@+id/rkName"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="4dp"
-                    android:background="@android:color/transparent"
-                    android:text="@string/rkName"
-                    android:textColor="@color/title"
-                    android:textSize="18sp" />
+            <fragment
+                android:id="@+id/fragment2"
+                android:name="de.dertyp7214.overlayer.fragments.SettingsFragment"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
 
-                <TextView
-                    android:id="@+id/rkSub"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="4dp"
-                    android:background="@android:color/transparent"
-                    android:text="@string/rkSub"
-                    android:textColor="@color/subText"
-                    android:textSize="18sp" />
-            </LinearLayout>
         </LinearLayout>
-    </LinearLayout>
-</androidx.constraintlayout.widget.ConstraintLayout>
+
+        <TextView
+            android:id="@+id/version"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:textAlignment="center"
+            android:textColor="@color/subText"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            tools:text="1.8.7" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

@@ -1,0 +1,22 @@
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <PreferenceCategory
+        app:layout="@layout/preference_category"
+        app:title="@string/general">
+
+        <de.dertyp7214.overlayer.components.BottomSheetPreference
+            android:defaultValue="-1"
+            android:entries="@array/theme_prefs"
+            android:entryValues="@array/theme_prefs_values"
+            android:icon="@drawable/ic_brightness_medium"
+            android:key="app_theme"
+            app:dialogLayout="@layout/list_preference_dialog"
+            app:title="@string/app_theme" />
+
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="amoled_theme"
+            android:title="@string/amoled_theme" />
+    </PreferenceCategory>
+</PreferenceScreen>

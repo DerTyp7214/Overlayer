@@ -2,6 +2,7 @@ package de.dertyp7214.overlayer.fragments
 
 import android.animation.ObjectAnimator
 import android.animation.ValueAnimator
+import android.annotation.SuppressLint
 import android.app.Activity
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -17,14 +18,16 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.dgreenhalgh.android.simpleitemdecoration.linear.EndOffsetItemDecoration
 import de.dertyp7214.overlayer.R
+import de.dertyp7214.overlayer.components.CustomGridLayoutManager
 import de.dertyp7214.overlayer.core.dp
 import de.dertyp7214.overlayer.core.setHeight
 import de.dertyp7214.overlayer.data.Overlay
 import de.dertyp7214.overlayer.data.OverlayGroup
-import de.dertyp7214.overlayer.helper.OverlayHelper
+import de.dertyp7214.overlayer.data.OverlayQueueItem
 import de.dertyp7214.overlayer.viewmodel.OverlayViewModel
 
 class OverlaysFragment : Fragment() {
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -39,7 +42,9 @@ class OverlaysFragment : Fragment() {
 
         val list = ArrayList(overlayViewModel.getOverlays().toList().map { it.second }
             .filter { it.overlays.size > 0 })
-        val adapter = OverlayGroupAdapter(requireActivity(), list)
+        val adapter = OverlayGroupAdapter(requireActivity(), list) {
+            overlayViewModel.addOverlayToQueue(it)
+        }
 
         overlayViewModel.observeOverlays(this) { map ->
             list.clear()
@@ -47,7 +52,7 @@ class OverlaysFragment : Fragment() {
             adapter.notifyDataSetChanged()
         }
 
-        recyclerView.layoutManager = LinearLayoutManager(requireContext())
+        recyclerView.layoutManager = CustomGridLayoutManager(requireContext(), 1)
         recyclerView.setHasFixedSize(true)
         recyclerView.adapter = adapter
         recyclerView.addItemDecoration(
@@ -60,7 +65,11 @@ class OverlaysFragment : Fragment() {
     }
 }
 
-class OverlayGroupAdapter(private val activity: Activity, private val items: List<OverlayGroup>) :
+class OverlayGroupAdapter(
+    private val activity: Activity,
+    private val items: List<OverlayGroup>,
+    private val overlayClicked: (overlayQueueItem: OverlayQueueItem) -> Unit
+) :
     RecyclerView.Adapter<OverlayGroupAdapter.ViewHolder>() {
     class ViewHolder(v: View) : RecyclerView.ViewHolder(v) {
         val root: LinearLayout = v.findViewById(R.id.root)
@@ -84,7 +93,12 @@ class OverlayGroupAdapter(private val activity: Activity, private val items: Lis
 
         holder.arrow.rotation = if (overlayGroup.expanded) 0F else 180F
 
-        val adapter = OverlayAdapter(activity, overlayGroup.overlays.sortedBy { it.packageName })
+        val adapter = OverlayAdapter(
+            activity,
+            this@OverlayGroupAdapter,
+            overlayGroup.overlays.sortedBy { it.packageName },
+            overlayClicked
+        )
 
         holder.overlayList.layoutManager = LinearLayoutManager(activity)
         holder.overlayList.setHasFixedSize(true)
@@ -117,9 +131,18 @@ class OverlayGroupAdapter(private val activity: Activity, private val items: Lis
     }
 
     override fun getItemCount(): Int = items.size
+
+    override fun getItemId(position: Int): Long {
+        return items[position].hashCode().toLong()
+    }
 }
 
-class OverlayAdapter(private val activity: Activity, private val items: List<Overlay>) :
+class OverlayAdapter(
+    private val activity: Activity,
+    private val adapter: RecyclerView.Adapter<*>,
+    private val items: List<Overlay>,
+    private val overlayClicked: (overlayQueueItem: OverlayQueueItem) -> Unit
+) :
     RecyclerView.Adapter<OverlayAdapter.ViewHolder>() {
     class ViewHolder(v: View) : RecyclerView.ViewHolder(v) {
         val icon: ImageView = v.findViewById(R.id.icon)
@@ -134,16 +157,29 @@ class OverlayAdapter(private val activity: Activity, private val items: List<Ove
         )
     }
 
+    @SuppressLint("SetTextI18n")
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val overlay = items[position]
 
+        holder.enabled.setOnCheckedChangeListener(null)
+
         holder.icon.setImageDrawable(overlay.icon)
-        holder.name.text = overlay.name
+        holder.name.text = "${if (overlay.inQueue) "[x] " else ""}${overlay.name}"
         holder.packageName.text = overlay.packageName
         holder.enabled.isChecked = overlay.enabled
 
-        holder.enabled.setOnClickListener {
-            OverlayHelper.setOverlayState(overlay.packageName, holder.enabled.isChecked)
+        holder.enabled.setOnCheckedChangeListener { _, isChecked ->
+            overlayClicked(OverlayQueueItem(overlay.packageName, isChecked, false) {
+                overlay.enabled = !overlay.enabled
+                overlay.inQueue = false
+
+                notifyDataSetChanged()
+                adapter.notifyDataSetChanged()
+            })
+
+            overlay.enabled = isChecked
+            overlay.inQueue = !overlay.inQueue
+            holder.name.text = "${if (overlay.inQueue) "[x] " else ""}${overlay.name}"
         }
     }
 

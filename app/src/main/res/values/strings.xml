@@ -13,4 +13,12 @@
     <string name="cancel">Cancel</string>
     <string name="no_root">This app only works with Root!</string>
     <string name="ok">OK</string>
+    <string name="changeOverlay">Change Overlays (%s)</string>
+    <string name="github">GitHub</string>
+    <string name="github_sub">App Sourcecode on Github</string>
+    <string name="github_url">https://github.com/DerTyp7214/Overlayer</string>
+
+    <string name="app_theme">App Theme</string>
+    <string name="general">General</string>
+    <string name="amoled_theme">Amoled Darkmode</string>
 </resources>

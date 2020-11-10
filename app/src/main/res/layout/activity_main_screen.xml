@@ -6,11 +6,25 @@
     android:layout_height="match_parent"
     tools:context=".screens.MainScreen">
 
+    <de.dertyp7214.overlayer.components.CenteredToolbar
+        android:id="@+id/toolbarMain"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:alpha="0"
+        android:background="?attr/colorPrimary"
+        android:minHeight="?attr/actionBarSize"
+        android:theme="?attr/actionBarTheme"
+        android:visibility="gone"
+        app:menu="@menu/overlay_queue"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <FrameLayout
         android:id="@+id/fragment"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_marginBottom="70dp"
+        android:layout_marginBottom="50dp"
         app:layout_constraintBottom_toBottomOf="@+id/frameLayout"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -36,10 +50,10 @@
             android:clickable="true"
             android:text="@string/addOverlay"
             android:textAlignment="center"
-            android:textAllCaps="false"
             android:textColor="@color/buttonForeground"
             android:textSize="16sp"
             android:tint="@color/buttonForeground"
+            android:transitionName="fab"
             app:icon="@drawable/ic_add"
             app:iconTint="@color/buttonForeground"
             app:rippleColor="@color/buttonForeground"
@@ -47,8 +61,8 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="100dp"
-            android:layout_marginTop="30dp"
+            android:layout_height="80dp"
+            android:layout_marginTop="25dp"
             android:background="@drawable/rounded_background"
             android:gravity="center|center_horizontal"
             android:orientation="horizontal">
@@ -58,7 +72,6 @@
                 android:layout_width="40dp"
                 android:layout_height="40dp"
                 android:layout_marginStart="15dp"
-                android:layout_marginBottom="5dp"
                 android:background="@drawable/ripple"
                 android:clickable="true"
                 android:padding="5dp"
@@ -75,7 +88,6 @@
                 android:layout_width="40dp"
                 android:layout_height="40dp"
                 android:layout_marginEnd="15dp"
-                android:layout_marginBottom="5dp"
                 android:background="@drawable/ripple"
                 android:clickable="true"
                 android:padding="5dp"
