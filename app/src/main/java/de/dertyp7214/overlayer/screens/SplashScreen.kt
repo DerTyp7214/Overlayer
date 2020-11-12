@@ -10,6 +10,7 @@ import com.topjohnwu.superuser.Shell
 import de.dertyp7214.overlayer.BuildConfig
 import de.dertyp7214.overlayer.R
 import de.dertyp7214.overlayer.components.BaseActivity
+import de.dertyp7214.rootutils.rootAccess
 
 class SplashScreen : BaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -20,7 +21,7 @@ class SplashScreen : BaseActivity() {
             //Shell.enableVerboseLogging = BuildConfig.DEBUG
             Shell.Builder.create().setFlags(Shell.FLAG_MOUNT_MASTER)
 
-            if (Shell.rootAccess() || BuildConfig.DEBUG) {
+            if (rootAccess() || BuildConfig.DEBUG) {
                 startActivity(Intent(this, MainScreen::class.java))
                 finish()
             } else {
