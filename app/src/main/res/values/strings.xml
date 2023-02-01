@@ -4,4 +4,6 @@
     <string name="installation_method_long">With Root you are able to add overlays with module. Shizuku allows you to use this app without having to root your phone.</string>
     <string name="shizuku">Shizuku</string>
     <string name="root">Root</string>
+    <string name="coming_soon">Coming Soon™️</string>
+    <string name="search">Search</string>
 </resources>
