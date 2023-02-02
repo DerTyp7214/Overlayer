@@ -1,5 +1,6 @@
 package de.dertyp7214.overlayer.core
 
+import android.view.ViewGroup
 import com.google.android.material.card.MaterialCardView
 import com.google.android.material.shape.CornerFamily
 import com.google.android.material.shape.MaterialShapeDrawable
@@ -23,4 +24,15 @@ fun MaterialCardView.corners(
 
     this.background = background
     invalidate()
+}
+
+fun MaterialCardView.setMargins(
+    left: Int = 0,
+    top: Int = 0,
+    right: Int = 0,
+    bottom: Int = 0
+) {
+    val params = this.layoutParams as ViewGroup.MarginLayoutParams
+    params.setMargins(left, top, right, bottom)
+    this.layoutParams = params
 }
