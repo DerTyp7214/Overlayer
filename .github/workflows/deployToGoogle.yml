@@ -22,10 +22,6 @@ jobs:
         with:
           submodules: recursive
 
-      - uses: nttld/setup-ndk@v1
-        with:
-          ndk-version: r23
-
       - name: Setup JDK
         uses: actions/setup-java@v1
         with:
@@ -65,15 +61,14 @@ jobs:
 
       - name: Sign artifact
         id: signArtifact
-        uses: r0adkll/sign-android-release@v1
+        uses: ilharp/sign-android-release@v1
         with:
-          releaseDirectory: app/build/outputs/bundle/release
-          alias: ${{ secrets.KEYALIAS }}
-          signingKeyBase64: ${{ secrets.SIGNING_KEY }}
+          releaseDir: app/build/outputs/bundle/release
+          keyAlias: ${{ secrets.KEYALIAS }}
+          signingKey: ${{ secrets.SIGNING_KEY }}
           keyStorePassword: ${{ secrets.KEY_STORE_PASSWORD }}
           keyPassword: ${{ secrets.KEY_PASSWORD }}
-        env:
-          BUILD_TOOLS_VERSION: 33.0.0
+          buildToolsVersion: 33.0.0
 
       - name: Upload Artifact
         uses: actions/upload-artifact@v2
