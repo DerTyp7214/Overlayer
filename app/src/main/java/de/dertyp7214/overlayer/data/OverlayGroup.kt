@@ -14,7 +14,11 @@ data class OverlayGroup(
 
     fun getIcon(context: Context): Drawable? {
         if (icon == null) {
-            icon = context.packageManager.getApplicationIcon(packageName)
+            icon = try {
+                context.packageManager.getApplicationIcon(packageName)
+            } catch (e: PackageManager.NameNotFoundException) {
+                null
+            }
         }
         return icon
     }
@@ -23,19 +27,27 @@ data class OverlayGroup(
     fun getLabel(context: Context): String {
         if (label == null) {
             label = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU)
-                context.packageManager.getApplicationLabel(
-                    context.packageManager.getApplicationInfo(
-                        packageName,
-                        PackageManager.ApplicationInfoFlags.of(0)
-                    )
-                ).toString()
+                try {
+                    context.packageManager.getApplicationLabel(
+                        context.packageManager.getApplicationInfo(
+                            packageName,
+                            PackageManager.ApplicationInfoFlags.of(0)
+                        )
+                    ).toString()
+                } catch (e: PackageManager.NameNotFoundException) {
+                    packageName
+                }
             else
-                context.packageManager.getApplicationLabel(
-                    context.packageManager.getApplicationInfo(
-                        packageName,
-                        0
-                    )
-                ).toString()
+                try {
+                    context.packageManager.getApplicationLabel(
+                        context.packageManager.getApplicationInfo(
+                            packageName,
+                            0
+                        )
+                    ).toString()
+                } catch (e: PackageManager.NameNotFoundException) {
+                    packageName
+                }
 
         }
         return label ?: packageName

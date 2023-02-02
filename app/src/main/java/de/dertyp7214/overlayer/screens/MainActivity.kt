@@ -1,11 +1,13 @@
 package de.dertyp7214.overlayer.screens
 
+import android.graphics.drawable.GradientDrawable
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
-import android.widget.SearchView
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.SearchView
+import androidx.core.graphics.ColorUtils
 import androidx.core.view.MenuProvider
 import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
@@ -15,6 +17,7 @@ import com.google.android.material.snackbar.Snackbar
 import de.dertyp7214.overlayer.R
 import de.dertyp7214.overlayer.adapters.OverlayAdapter
 import de.dertyp7214.overlayer.core.getAttrColor
+import de.dertyp7214.overlayer.core.statusBarHeight
 import de.dertyp7214.overlayer.data.OverlayGroup
 import de.dertyp7214.overlayer.utils.doInBackground
 import de.dertyp7214.overlayer.utils.getOverlays
@@ -36,9 +39,25 @@ class MainActivity : AppCompatActivity(), MenuProvider {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+        bottomAppBar.apply {
+            val newTint = getAttrColor(com.google.android.material.R.attr.colorSurface)
+            background = GradientDrawable().apply {
+                colors = intArrayOf(ColorUtils.setAlphaComponent(newTint, 0xF8), newTint)
+                gradientType = GradientDrawable.LINEAR_GRADIENT
+                cornerRadius = 0f
+            }
+        }
+
+        adapter.statusBarHeight = statusBarHeight()
+
         recyclerView.adapter = adapter
         recyclerView.setHasFixedSize(true)
 
+        swipeRefreshLayout.setProgressViewOffset(
+            true,
+            0,
+            statusBarHeight()
+        )
         swipeRefreshLayout.setColorSchemeColors(
             getAttrColor(com.google.android.material.R.attr.colorPrimary),
             getAttrColor(com.google.android.material.R.attr.colorSecondary)
@@ -114,6 +133,7 @@ class MainActivity : AppCompatActivity(), MenuProvider {
             R.id.app_bar_search -> {
                 true
             }
+
             else -> false
         }
     }

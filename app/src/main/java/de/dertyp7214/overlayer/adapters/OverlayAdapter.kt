@@ -2,21 +2,27 @@ package de.dertyp7214.overlayer.adapters
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
+import androidx.core.graphics.ColorUtils
 import androidx.recyclerview.widget.RecyclerView
 import androidx.transition.TransitionManager
 import com.google.android.material.card.MaterialCardView
 import com.google.android.material.checkbox.MaterialCheckBox
 import de.dertyp7214.overlayer.R
 import de.dertyp7214.overlayer.core.corners
+import de.dertyp7214.overlayer.core.dp
+import de.dertyp7214.overlayer.core.getAttrColor
 import de.dertyp7214.overlayer.core.getDimen
+import de.dertyp7214.overlayer.core.setMargins
 import de.dertyp7214.overlayer.data.OverlayGroup
 import de.dertyp7214.overlayer.utils.runCommand
+import kotlin.math.roundToInt
 
 class OverlayAdapter(
     private val context: Context,
@@ -106,6 +112,27 @@ class OverlayAdapter(
         return overlays.size
     }
 
+    private val backgroundColor = ColorUtils.blendARGB(
+        context.getAttrColor(com.google.android.material.R.attr.colorSurfaceVariant),
+        context.getAttrColor(com.google.android.material.R.attr.colorSurface),
+        0.5f
+    )
+
+    private val dp24 = 24.dp(context).roundToInt()
+    private val dp2 = 2.dp(context).roundToInt()
+
+    @SuppressLint("PrivateResource")
+    private val bottomMargin =
+        dp24 + context.getDimen(com.google.android.material.R.dimen.m3_bottomappbar_height)
+            .roundToInt()
+
+    var statusBarHeight = 0
+    private val topMargin: Int
+        get() {
+            Log.d("OverlayAdapter", "topMargin: $dp24 + $statusBarHeight")
+            return dp24 + statusBarHeight
+        }
+
     @SuppressLint("SetTextI18n")
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val group = overlays[position]
@@ -115,25 +142,59 @@ class OverlayAdapter(
             return
         } else holder.cardView.visibility = View.VISIBLE
 
+        holder.cardView.setCardBackgroundColor(backgroundColor)
+
         when {
-            position == firstFiltered && (position == lastFiltered || lastFiltered == -1) -> holder.cardView.corners(
-                context.getDimen(R.dimen.corner_radius),
-                context.getDimen(R.dimen.corner_radius),
-                context.getDimen(R.dimen.corner_radius),
-                context.getDimen(R.dimen.corner_radius)
-            )
+            position == firstFiltered && (position == lastFiltered || lastFiltered == -1) -> {
+                holder.cardView.corners(
+                    context.getDimen(R.dimen.corner_radius),
+                    context.getDimen(R.dimen.corner_radius),
+                    context.getDimen(R.dimen.corner_radius),
+                    context.getDimen(R.dimen.corner_radius)
+                )
+                holder.cardView.setMargins(
+                    top = topMargin,
+                    right = dp24,
+                    bottom = bottomMargin,
+                    left = dp24
+                )
+            }
 
-            position == firstFiltered -> holder.cardView.corners(
-                topLeftRadius = context.getDimen(R.dimen.corner_radius),
-                topRightRadius = context.getDimen(R.dimen.corner_radius)
-            )
+            position == firstFiltered -> {
+                holder.cardView.corners(
+                    topLeftRadius = context.getDimen(R.dimen.corner_radius),
+                    topRightRadius = context.getDimen(R.dimen.corner_radius)
+                )
+                holder.cardView.setMargins(
+                    top = topMargin,
+                    right = dp24,
+                    bottom = dp2,
+                    left = dp2
+                )
+            }
 
-            position == lastFiltered -> holder.cardView.corners(
-                bottomLeftRadius = context.getDimen(R.dimen.corner_radius),
-                bottomRightRadius = context.getDimen(R.dimen.corner_radius)
-            )
+            position == lastFiltered -> {
+                holder.cardView.corners(
+                    bottomLeftRadius = context.getDimen(R.dimen.corner_radius),
+                    bottomRightRadius = context.getDimen(R.dimen.corner_radius)
+                )
+                holder.cardView.setMargins(
+                    top = dp2,
+                    right = dp24,
+                    bottom = bottomMargin,
+                    left = dp24
+                )
+            }
 
-            else -> holder.cardView.corners()
+            else -> {
+                holder.cardView.corners()
+                holder.cardView.setMargins(
+                    top = dp2,
+                    right = dp24,
+                    bottom = dp2,
+                    left = dp24
+                )
+            }
         }
 
         holder.icon.setImageDrawable(group.getIcon(context))

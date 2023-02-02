@@ -1,5 +1,6 @@
 package de.dertyp7214.overlayer.core
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.content.SharedPreferences
 import androidx.core.content.edit
@@ -40,4 +41,10 @@ fun Context.getAttrColor(id: Int): Int {
     val typedValue = android.util.TypedValue()
     theme.resolveAttribute(id, typedValue, true)
     return typedValue.data
+}
+
+@SuppressLint("InternalInsetResource", "DiscouragedApi")
+fun Context.statusBarHeight(): Int {
+    val resourceId = resources.getIdentifier("status_bar_height", "dimen", "android")
+    return if (resourceId > 0) resources.getDimensionPixelSize(resourceId) else 0
 }
